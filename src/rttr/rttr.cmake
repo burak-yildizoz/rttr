@@ -51,6 +51,7 @@ set(HEADER_FILES access_levels.h
                  type
                  type.h
                  type_list.h
+                 utility.h
                  variant.h
                  variant_associative_view.h
                  variant_sequential_view.h
