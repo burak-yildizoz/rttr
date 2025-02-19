@@ -516,7 +516,7 @@ struct variant_data_policy_array_big : variant_data_base_policy<T, variant_data_
 
     static RTTR_INLINE void clone(const T& value, variant_data& dest)
     {
-        if constexpr (std::is_bounded_array_v<T>)
+        if constexpr (rttr::detail::is_bounded_array<T>::value)
         {
             constexpr size_t size = std::extent_v<T>;
             using Type = std::remove_extent_t<T>;
@@ -539,7 +539,7 @@ struct variant_data_policy_array_big : variant_data_base_policy<T, variant_data_
     static RTTR_INLINE void create(U&& value, variant_data& dest)
     {
         using array_dest_type = decltype(new T);
-        if constexpr (std::is_bounded_array_v<T>)
+        if constexpr (rttr::detail::is_bounded_array<T>::value)
         {
             constexpr size_t size = std::extent_v<T>;
             using Type = std::remove_extent_t<T>;
