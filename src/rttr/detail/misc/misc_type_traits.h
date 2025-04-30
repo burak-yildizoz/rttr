@@ -894,18 +894,6 @@ namespace detail
      {
      };
 
-    /////////////////////////////////////////////////////////////////////////////////////////
-
-    template <class T>
-    struct is_bounded_array : std::false_type
-    {
-    };
-
-    template <class T, std::size_t N>
-    struct is_bounded_array<T[N]> : std::true_type
-    {
-    };
-
 } // end namespace detail
 } // end namespace rttr
 

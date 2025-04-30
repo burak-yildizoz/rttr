@@ -38,6 +38,7 @@
 #include "rttr/detail/comparison/compare_less.h"
 
 #include <cstdint>
+#include <type_traits>
 
 namespace rttr
 {
@@ -516,16 +517,7 @@ struct variant_data_policy_array_big : variant_data_base_policy<T, variant_data_
 
     static RTTR_INLINE void clone(const T& value, variant_data& dest)
     {
-        if constexpr (rttr::detail::is_bounded_array<T>::value)
-        {
-            constexpr size_t size = std::extent_v<T>;
-            using Type = std::remove_extent_t<T>;
-            reinterpret_cast<array_dest_type&>(dest) = new Type[size];
-        }
-        else
-        {
-            reinterpret_cast<array_dest_type&>(dest) = new T;
-        }
+        specialized_impl(value, dest, std::is_array<T>());
 
         COPY_ARRAY_PRE_PROC(value, dest);
     }
@@ -538,19 +530,22 @@ struct variant_data_policy_array_big : variant_data_base_policy<T, variant_data_
     template<typename U>
     static RTTR_INLINE void create(U&& value, variant_data& dest)
     {
-        using array_dest_type = decltype(new T);
-        if constexpr (rttr::detail::is_bounded_array<T>::value)
-        {
-            constexpr size_t size = std::extent_v<T>;
-            using Type = std::remove_extent_t<T>;
-            reinterpret_cast<array_dest_type&>(dest) = new Type[size];
-        }
-        else
-        {
-            reinterpret_cast<array_dest_type&>(dest) = new T;
-        }
+        specialized_impl(value, dest, std::is_array<T>());
 
         COPY_ARRAY_PRE_PROC(value, dest);
+    }
+
+private:
+    static void specialized_impl(const T& value, variant_data& dest, std::false_type)
+    {
+        reinterpret_cast<array_dest_type&>(dest) = new T;
+    }
+
+    static void specialized_impl(const T& value, variant_data& dest, std::true_type)
+    {
+        constexpr size_t size = std::extent_v<T>;
+        using Type = std::remove_extent_t<T>;
+        reinterpret_cast<array_dest_type&>(dest) = new Type[size];
     }
 };
 
