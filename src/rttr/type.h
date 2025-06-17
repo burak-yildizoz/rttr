@@ -357,6 +357,13 @@ class RTTR_API type
          */
         RTTR_INLINE bool is_class() const RTTR_NOEXCEPT;
 
+        /*!
+         * \brief Returns true whether the given type is union.
+         *
+         * \return True if the type is a union, otherwise false.
+         */
+        RTTR_INLINE bool is_union() const RTTR_NOEXCEPT;
+
          /*!
          * \brief Returns true whether the given type is an instantiation of a class template.
          *
