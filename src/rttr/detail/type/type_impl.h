@@ -190,6 +190,13 @@ RTTR_INLINE bool type::is_class() const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+RTTR_INLINE bool type::is_union() const RTTR_NOEXCEPT
+{
+    return m_type_data->type_trait_value(detail::type_trait_infos::is_union);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 RTTR_INLINE bool type::is_template_instantiation() const RTTR_NOEXCEPT
 {
     return m_type_data->type_trait_value(detail::type_trait_infos::is_template_instantiation);

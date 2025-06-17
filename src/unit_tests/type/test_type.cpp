@@ -54,6 +54,12 @@ enum E_Alignment
 template<typename...Args>
 struct my_class_template {};
 
+union UnionSimple
+{
+    char foo = '1';
+    int bar;
+};
+
 struct type_metadata_test
 {
 
@@ -63,6 +69,12 @@ static const char* key_data = "Test";
 
 RTTR_REGISTRATION
 {
+    registration::class_<UnionSimple>("UnionSimple")
+        .constructor<>()
+        .property("foo", &UnionSimple::foo)
+        .property("bar", &UnionSimple::bar)
+    ;
+
     registration::class_<type_metadata_test>("type_metadata_test")
             (
                 metadata(key_data, "foo"),
@@ -387,6 +399,25 @@ TEST_CASE("Test rttr::type - Check is_class", "[type]")
     CHECK(type::get<char>().is_class()           == false);
     CHECK(type::get<bool>().is_class()           == false);
     CHECK(type::get<E_Alignment>().is_class()    == false);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+TEST_CASE("Test rttr::type - Check is_union", "[type]")
+{
+    CHECK(type::get<UnionSimple>().is_union()     == true);
+
+    CHECK(type::get<std::string>().is_union()     == false);
+    CHECK(type::get<ClassSingle6A>().is_union()   == false);
+    CHECK(type::get<ClassMultiple2B>().is_union() == false);
+    CHECK(type::get<FinalClass>().is_union()      == false);
+
+    CHECK(type::get<int>().is_union()            == false);
+    CHECK(type::get<float>().is_union()          == false);
+    CHECK(type::get<double>().is_union()         == false);
+    CHECK(type::get<char>().is_union()           == false);
+    CHECK(type::get<bool>().is_union()           == false);
+    CHECK(type::get<E_Alignment>().is_union()    == false);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
