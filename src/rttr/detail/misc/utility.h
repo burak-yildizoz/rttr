@@ -25,8 +25,8 @@
 *                                                                                   *
 *************************************************************************************/
 
-#ifndef RTTR_UTILITY_H_
-#define RTTR_UTILITY_H_
+#ifndef RTTR_MISC_UTILITY_H_
+#define RTTR_MISC_UTILITY_H_
 
 #include "rttr/detail/base/core_prerequisites.h"
 
@@ -533,4 +533,4 @@ static RTTR_INLINE T& identity_func(T& func) { return func; }
 RTTR_END_DISABLE_EXCEPT_TYPE_WARNING
 #endif
 
-#endif //RTTR_UTILITY_H_
+#endif //RTTR_MISC_UTILITY_H_
